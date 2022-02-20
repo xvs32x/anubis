@@ -1,5 +1,5 @@
 import { DynamicModule, Module } from '@nestjs/common';
-import { AppService } from './app.service';
+import { AppService } from './services/app.service';
 import { ConsoleModule } from 'nestjs-console';
 
 @Module({})

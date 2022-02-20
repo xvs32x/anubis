@@ -1,5 +1,5 @@
 import { Command, Console } from 'nestjs-console';
-import { Preset } from '../modules/presets/preset';
+import { Preset } from '../../modules/presets/preset';
 
 @Console({
   command: 'publish',

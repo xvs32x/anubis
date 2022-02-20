@@ -1,22 +1,9 @@
 import { BootstrapConsole } from 'nestjs-console';
-import { DynamicModule } from '@nestjs/common';
+import { AppModule } from './app.module';
 
-export interface PublishConfig {
-  preset: any;
-}
-
-export class Publisher {
-  static module(Preset: any): DynamicModule {
-    return {
-      module: Publisher,
-      imports: [Preset],
-    };
-  }
-}
-
-export function run(Preset) {
+export function runPreset(Preset) {
   const bootstrap = new BootstrapConsole({
-    module: Publisher.module(Preset),
+    module: AppModule.configurePreset(Preset),
     useDecorators: true,
   });
 
