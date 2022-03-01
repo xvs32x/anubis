@@ -1,7 +1,7 @@
 import { BootstrapConsole } from 'nestjs-console';
 import { AppModule } from './app.module';
 
-export function runPreset(Preset) {
+export function registerModule(Preset) {
   const bootstrap = new BootstrapConsole({
     module: AppModule.configurePreset(Preset),
     useDecorators: true,

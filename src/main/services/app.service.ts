@@ -1,12 +1,12 @@
 import { Command, Console } from 'nestjs-console';
-import { Preset } from '../../modules/presets/preset';
+import { GitPreset } from '../../modules/presets/git-preset';
 
 @Console({
   command: 'publish',
   description: 'Test command for publish',
 })
 export class AppService {
-  constructor(protected preset: Preset) {}
+  constructor(protected preset: GitPreset) {}
   @Command({
     command: 'test',
     description: 'Only one command for testing',

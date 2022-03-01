@@ -19,7 +19,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "console:dev": "ts-node -r tsconfig-paths/register src/publisher.ts publish test"
+    "example:shell-with-remotes:git": "ts-node -r tsconfig-paths/register src/examples/shell-with-remotes/publisher.ts publish git"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",

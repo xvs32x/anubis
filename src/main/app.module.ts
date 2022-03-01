@@ -1,5 +1,4 @@
 import { DynamicModule, Module } from '@nestjs/common';
-import { AppService } from './services/app.service';
 import { ConsoleModule } from 'nestjs-console';
 
 @Module({})
@@ -8,7 +7,6 @@ export class AppModule {
     return {
       module: AppModule,
       imports: [ConsoleModule, Module],
-      providers: [AppService],
     };
   }
 }
