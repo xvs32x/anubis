@@ -4,7 +4,9 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This framework helps you with writing your CI/CD steps as a code. It avoids using any config files (YAML, JSON, etc...)
+
+Anubis written using NestJS. The main idea is that we can use providers to set or rewrite any default variables and classes.
 
 ## Installation
 
@@ -37,10 +39,6 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
 ## Stay in touch
 
