@@ -8,7 +8,7 @@ This framework helps you with writing your CI/CD steps as a code. It avoids usin
 
 Anubis written using <a href="https://nestjs.com" target="_blank">NestJS</a>.
 
-The main idea is that we can use providers to set or rewrite any default variables and classes.
+The main idea is that we can use DI (dependency injection) mechanism to set or rewrite any default variables and classes.
 
 ## Installation
 
