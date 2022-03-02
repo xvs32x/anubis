@@ -2,8 +2,6 @@
   <a href="https://github.com/xvs32x/anubis" target="blank"><img src="https://raw.githubusercontent.com/xvs32x/anubis/main/src/assets/logo/anubis.svg" width="320" alt="Nest Logo" /></a>
 </p>
 
-<p align="center">Set of tools for your CI/CD.</p>
-
 ## Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
