@@ -6,7 +6,9 @@
 
 This framework helps you with writing your CI/CD steps as a code. It avoids using any config files (YAML, JSON, etc...)
 
-Anubis written using NestJS. The main idea is that we can use providers to set or rewrite any default variables and classes.
+Anubis written using <a href="https://nestjs.com" target="_blank">NestJS</a>.
+
+The main idea is that we can use providers to set or rewrite any default variables and classes.
 
 ## Installation
 
