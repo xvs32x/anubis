@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/xvs32x/anubis" target="blank"><img src="https://raw.githubusercontent.com/xvs32x/anubis/main/src/assets/logo/anubis.svg" width="480" alt="Nest Logo" /></a>
+  <a href="https://github.com/xvs32x/anubis" target="blank"><img src="https://raw.githubusercontent.com/xvs32x/anubis/main/package/assets/logo/anubis.svg" width="480" alt="Nest Logo" /></a>
 </p>
 
 ## Description
