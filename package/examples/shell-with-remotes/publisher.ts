@@ -1,16 +1,15 @@
-import { Command, Console } from 'nestjs-console';
-import { Module } from '@nestjs/common';
-import { Provider } from '@nestjs/common/interfaces/modules/provider.interface';
 import { Application } from '../../models/application';
 import { SafeMode } from '../../modules/config/providers/safe-mode';
-import { GitReleaseService } from '../../modules/git/adapters/git-release/git-release.service';
-import { TableOfChangesService } from '../../modules/git/adapters/table-of-changes/table-of-changes.service';
-import { GitModule } from '../../modules/git/git.module';
 import { RepoUrl } from '../../modules/git/providers/repo-url';
 import { CommitBranch } from '../../modules/git/providers/commit-branch';
 import { VersionToTagService } from '../../modules/git/adapters/version-to-tag/version-to-tag.service';
-import { registerModule } from '../../main/console';
+import { registerPipeline } from '../../main/console';
 import { TagPattern } from '../../modules/git/providers/tag-pattern';
+import { Pipeline } from '../../modules/core/decorators/pipeline';
+import { Step } from '../../modules/core/decorators/step';
+import { Config } from '../../modules/core/models/config';
+import { GitService } from '../../modules/git/facades/git/git.service';
+import { ReporterService } from '../../modules/reporter/facades/reporter/reporter/reporter.service';
 
 const appPath = 'shell-with-remotes';
 
@@ -30,7 +29,7 @@ const remotes: Application[] = [
   },
 ];
 
-const config: Provider[] = [
+const config: Config[] = [
   {
     provide: SafeMode,
     useValue: true,
@@ -57,33 +56,27 @@ const config: Provider[] = [
   },
 ];
 
-@Console({
+@Pipeline({
   command: 'publish',
   description: 'Publish the app',
 })
-class ConsoleService {
+class PipelineService {
   constructor(
-    protected gitReleaseService: GitReleaseService,
-    protected tableOfChangesService: TableOfChangesService,
+    protected gitService: GitService,
+    protected reporterService: ReporterService,
   ) {}
 
-  @Command({
+  @Step({
     command: 'git',
     description: 'Create a new tag for every app and push it into the git repo',
   })
   async git(): Promise<void> {
-    await this.gitReleaseService.release(shell);
+    await this.gitService.release(shell);
     for (const remote of remotes) {
-      await this.gitReleaseService.release(remote);
+      await this.gitService.release(remote);
     }
-    this.tableOfChangesService.print();
+    this.reporterService.tableOfChanges.print();
   }
 }
 
-@Module({
-  providers: [ConsoleService],
-  imports: [GitModule.withConfig(config)],
-})
-class RemotesToShellModule {}
-
-registerModule(RemotesToShellModule);
+registerPipeline(PipelineService, config);

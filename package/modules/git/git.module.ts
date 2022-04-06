@@ -12,19 +12,19 @@ import { ChangeDetectionService } from './adapters/change-detection/change-detec
 import { GitInstanceService } from './adapters/git-instance/git-instance.service';
 import { LoggerModule } from '../logger/logger.module';
 import { CommitBranchProvider } from './providers/commit-branch';
-import { GitFacadeService } from './services/git-facade/git-facade.service';
+import { GitService } from './facades/git/git.service';
 import { GitReleaseService } from './adapters/git-release/git-release.service';
-import { TableOfChangesService } from './adapters/table-of-changes/table-of-changes.service';
 import { Provider } from '@nestjs/common/interfaces/modules/provider.interface';
 import { DefaultVersionProvider } from './providers/default-version';
+import { ReporterModule } from '../reporter/reporter.module';
 
 @Module({})
 export class GitModule {
   static withConfig(providers: Provider[] = []): DynamicModule {
     return {
       module: GitModule,
-      imports: [LoggerModule],
-      exports: [GitFacadeService, TableOfChangesService, GitReleaseService],
+      imports: [LoggerModule, ReporterModule],
+      exports: [GitService],
       providers: [
         GitConfigProvider,
         SimpleGitOptionsProvider,
@@ -39,9 +39,8 @@ export class GitModule {
         VersionToTagService,
         ChangeDetectionService,
         GitInstanceService,
-        GitFacadeService,
+        GitService,
         GitReleaseService,
-        TableOfChangesService,
         ...providers,
       ],
     };

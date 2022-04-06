@@ -1,9 +1,28 @@
 import { BootstrapConsole } from 'nestjs-console';
 import { AppModule } from './app.module';
+import { Config } from '../modules/core/models/config';
+import { DynamicModule } from '@nestjs/common';
+import { GitModule } from '../modules/git/git.module';
+import { ReporterModule } from '../modules/reporter/reporter.module';
 
-export function registerModule(Preset) {
+export function registerPipeline(Pipeline, config: Config[]) {
+  const module: DynamicModule = {
+    module: AnubisModule,
+    providers: [Pipeline],
+    imports: [ReporterModule, GitModule.withConfig(config)],
+  };
+  registerModule(module);
+}
+
+class AnubisModule {}
+
+/**
+ * @Deprecated
+ * @param Module
+ */
+export function registerModule(Module) {
   const bootstrap = new BootstrapConsole({
-    module: AppModule.configurePreset(Preset),
+    module: AppModule.configurePreset(Module),
     useDecorators: true,
   });
 

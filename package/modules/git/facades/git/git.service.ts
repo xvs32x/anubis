@@ -7,9 +7,10 @@ import { NextVersionService } from '../../adapters/next-version/next-version.ser
 import { TagToVersionService } from '../../adapters/tag-to-version/tag-to-version.service';
 import { VersionToTagService } from '../../adapters/version-to-tag/version-to-tag.service';
 import { PushResult } from 'simple-git/typings/response';
+import { GitReleaseService } from '../../adapters/git-release/git-release.service';
 
 @Injectable()
-export class GitFacadeService {
+export class GitService {
   constructor(
     protected changeDetectionService: ChangeDetectionService,
     protected lastTagService: LastTagService,
@@ -17,7 +18,11 @@ export class GitFacadeService {
     protected nextVersionService: NextVersionService,
     protected tagToVersionService: TagToVersionService,
     protected versionToTagService: VersionToTagService,
+    protected gitReleaseService: GitReleaseService,
   ) {}
+  release(app: Application): Promise<void> {
+    return this.gitReleaseService.release(app);
+  }
   getIsContainChanges(app: Application): Promise<boolean> {
     return this.changeDetectionService.getIsChanged(app);
   }

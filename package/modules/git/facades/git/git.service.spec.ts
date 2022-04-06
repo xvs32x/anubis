@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { GitFacadeService } from './git-facade.service';
+import { GitService } from './git.service';
 import { ChangeDetectionService } from '../../adapters/change-detection/change-detection.service';
 import { LastTagService } from '../../adapters/last-tag/last-tag.service';
 import { NewTagService } from '../../adapters/new-tag/new-tag.service';
@@ -7,13 +7,13 @@ import { NextVersionService } from '../../adapters/next-version/next-version.ser
 import { TagToVersionService } from '../../adapters/tag-to-version/tag-to-version.service';
 import { VersionToTagService } from '../../adapters/version-to-tag/version-to-tag.service';
 
-describe('GitFacadeService', () => {
-  let service: GitFacadeService;
+describe('GitService', () => {
+  let service: GitService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        GitFacadeService,
+        GitService,
         {
           provide: ChangeDetectionService,
           useValue: {},
@@ -41,7 +41,7 @@ describe('GitFacadeService', () => {
       ],
     }).compile();
 
-    service = module.get<GitFacadeService>(GitFacadeService);
+    service = module.get<GitService>(GitService);
   });
 
   it('should be defined', () => {
