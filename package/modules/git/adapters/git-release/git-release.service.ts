@@ -2,9 +2,9 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Application } from '../../../../models/application';
 import { GitFacadeService } from '../../services/git-facade/git-facade.service';
 import { TableOfChangesService } from '../table-of-changes/table-of-changes.service';
-import { SafeModeToken } from '../../../config/safe-mode';
+import { SafeMode } from '../../../config/providers/safe-mode';
 import { LoggerService } from '../../../logger/services/logger.service';
-import { DefaultVersionToken } from '../../config/default-version';
+import { DefaultVersion } from '../../providers/default-version';
 
 @Injectable()
 export class GitReleaseService {
@@ -12,8 +12,8 @@ export class GitReleaseService {
     protected gitFacadeService: GitFacadeService,
     protected tableOfChangeService: TableOfChangesService,
     protected loggerService: LoggerService,
-    @Inject(SafeModeToken) protected safeMode: boolean,
-    @Inject(DefaultVersionToken) protected defaultVersion: string,
+    @Inject(SafeMode) protected safeMode: boolean,
+    @Inject(DefaultVersion) protected defaultVersion: string,
   ) {}
   async release(app: Application): Promise<void> {
     if (this.safeMode) {

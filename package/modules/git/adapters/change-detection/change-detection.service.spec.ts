@@ -3,7 +3,7 @@ import { ChangeDetectionService } from './change-detection.service';
 import { LoggerService } from '../../../logger/services/logger.service';
 import { LastTagService } from '../last-tag/last-tag.service';
 import { GitInstanceService } from '../git-instance/git-instance.service';
-import { CommitBranchToken } from '../../config/commit-branch';
+import { CommitBranch } from '../../providers/commit-branch';
 
 describe('ChangeDetectionService', () => {
   let service: ChangeDetectionService;
@@ -25,7 +25,7 @@ describe('ChangeDetectionService', () => {
           useValue: {},
         },
         {
-          provide: CommitBranchToken,
+          provide: CommitBranch,
           useValue: '',
         },
       ],

@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { SafeModeFactory } from './safe-mode';
+import { SafeModeProvider } from './providers/safe-mode';
 
 @Module({
-  providers: [SafeModeFactory],
-  exports: [SafeModeFactory],
+  providers: [SafeModeProvider],
+  exports: [SafeModeProvider],
 })
 export class ConfigModule {}

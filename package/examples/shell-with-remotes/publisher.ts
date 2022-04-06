@@ -2,45 +2,50 @@ import { Command, Console } from 'nestjs-console';
 import { Module } from '@nestjs/common';
 import { Provider } from '@nestjs/common/interfaces/modules/provider.interface';
 import { Application } from '../../models/application';
-import { SafeModeToken } from '../../modules/config/safe-mode';
+import { SafeMode } from '../../modules/config/providers/safe-mode';
 import { GitReleaseService } from '../../modules/git/adapters/git-release/git-release.service';
 import { TableOfChangesService } from '../../modules/git/adapters/table-of-changes/table-of-changes.service';
 import { GitModule } from '../../modules/git/git.module';
-import { RepoUrlToken } from '../../modules/git/config/repo-url';
-import { CommitBranchToken } from '../../modules/git/config/commit-branch';
+import { RepoUrl } from '../../modules/git/providers/repo-url';
+import { CommitBranch } from '../../modules/git/providers/commit-branch';
 import { VersionToTagService } from '../../modules/git/adapters/version-to-tag/version-to-tag.service';
 import { registerModule } from '../../main/console';
+import { TagPattern } from '../../modules/git/providers/tag-pattern';
 
 const appPath = 'shell-with-remotes';
 
 const shell: Application = {
   name: `${appPath}-shell`,
-  path: [`src/examples/${appPath}/shell`],
+  path: [`package/examples/${appPath}/shell`],
 };
 
 const remotes: Application[] = [
   {
     name: `${appPath}-remote1`,
-    path: [`src/examples/${appPath}/remote-1`],
+    path: [`package/examples/${appPath}/remote-1`],
   },
   {
     name: `${appPath}-remote2`,
-    path: [`src/examples/${appPath}/remote-2`],
+    path: [`package/examples/${appPath}/remote-2`],
   },
 ];
 
 const config: Provider[] = [
   {
-    provide: SafeModeToken,
+    provide: SafeMode,
     useValue: true,
   },
   {
-    provide: RepoUrlToken,
+    provide: RepoUrl,
     useValue: 'git@github.com:xvs32x/anubis.git',
   },
   {
-    provide: CommitBranchToken,
+    provide: CommitBranch,
     useValue: 'origin/main',
+  },
+  {
+    provide: TagPattern,
+    useValue: '^.+([0-9]+).([0-9]+).([0-9]+)',
   },
   {
     provide: VersionToTagService,

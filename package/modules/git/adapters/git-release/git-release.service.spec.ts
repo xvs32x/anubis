@@ -3,8 +3,8 @@ import { GitReleaseService } from './git-release.service';
 import { GitFacadeService } from '../../services/git-facade/git-facade.service';
 import { TableOfChangesService } from '../table-of-changes/table-of-changes.service';
 import { LoggerService } from '../../../logger/services/logger.service';
-import { SafeModeFactory } from '../../../config/safe-mode';
-import { DefaultVersionFactory } from '../../config/default-version';
+import { SafeModeProvider } from '../../../config/providers/safe-mode';
+import { DefaultVersionProvider } from '../../providers/default-version';
 
 describe('GitReleaseService', () => {
   let service: GitReleaseService;
@@ -25,8 +25,8 @@ describe('GitReleaseService', () => {
           provide: LoggerService,
           useValue: {},
         },
-        SafeModeFactory,
-        DefaultVersionFactory,
+        SafeModeProvider,
+        DefaultVersionProvider,
       ],
     }).compile();
 

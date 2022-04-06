@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { NewTagService } from './new-tag.service';
 import { GitInstanceService } from '../git-instance/git-instance.service';
-import { RepoUrlToken } from '../../config/repo-url';
+import { RepoUrl } from '../../providers/repo-url';
 
 describe('NewTagService', () => {
   let service: NewTagService;
@@ -15,7 +15,7 @@ describe('NewTagService', () => {
           useValue: {},
         },
         {
-          provide: RepoUrlToken,
+          provide: RepoUrl,
           useValue: '',
         },
       ],

@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import simpleGit, { SimpleGit } from 'simple-git';
-import { SimpleGitOptionsToken } from '../../config/simple-git-options';
+import { SimpleGitOptions as SimpleGitOptionsToken } from '../../providers/simple-git-options';
 import { SimpleGitOptions } from 'simple-git/src/lib/types';
-import { GitConfig, GitConfigToken } from '../../config/git-config';
+import { GitConfig } from '../../providers/git-config';
 
 @Injectable()
 export class GitInstanceService {
@@ -11,8 +11,8 @@ export class GitInstanceService {
   constructor(
     @Inject(SimpleGitOptionsToken)
     protected simpleGitOptions: Partial<SimpleGitOptions>,
-    @Inject(GitConfigToken)
-    protected gitConfig: GitConfig,
+    @Inject(GitConfig)
+    protected gitConfig: SimpleGitOptions,
   ) {}
 
   getInstance(): SimpleGit {
@@ -27,12 +27,12 @@ export class GitInstanceService {
 
   protected configure(
     options: Partial<SimpleGitOptions>,
-    config: GitConfig,
+    config: SimpleGitOptions,
   ): SimpleGit {
     const gitInstance = simpleGit(options);
 
     for (const field in config) {
-      gitInstance.addConfig(field, config.field);
+      gitInstance.addConfig(field, config[field]);
     }
 
     return gitInstance;

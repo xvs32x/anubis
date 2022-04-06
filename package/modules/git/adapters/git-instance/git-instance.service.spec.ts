@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { GitInstanceService } from './git-instance.service';
-import { SimpleGitOptionsFactory } from '../../config/simple-git-options';
-import { GitConfigFactory } from '../../config/git-config';
+import { SimpleGitOptionsProvider } from '../../providers/simple-git-options';
+import { GitConfigProvider } from '../../providers/git-config';
 
 describe('GitInstanceService', () => {
   let service: GitInstanceService;
@@ -10,8 +10,8 @@ describe('GitInstanceService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         GitInstanceService,
-        SimpleGitOptionsFactory,
-        GitConfigFactory,
+        SimpleGitOptionsProvider,
+        GitConfigProvider,
       ],
     }).compile();
 

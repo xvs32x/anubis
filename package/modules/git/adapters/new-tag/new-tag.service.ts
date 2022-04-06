@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { RepoUrlToken } from '../../config/repo-url';
+import { RepoUrl } from '../../providers/repo-url';
 import { GitInstanceService } from '../git-instance/git-instance.service';
 import { PushResult } from 'simple-git/typings/response';
 
@@ -7,7 +7,7 @@ import { PushResult } from 'simple-git/typings/response';
 export class NewTagService {
   constructor(
     protected gitInstanceService: GitInstanceService,
-    @Inject(RepoUrlToken)
+    @Inject(RepoUrl)
     protected repoUrl: string,
   ) {}
   async addNewTag(tag: string): Promise<PushResult> {
