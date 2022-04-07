@@ -2,7 +2,7 @@ import { Application } from '../../models/application';
 import { SafeMode } from '../../modules/config/providers/safe-mode';
 import { RepoUrl } from '../../modules/git/providers/repo-url';
 import { CommitBranch } from '../../modules/git/providers/commit-branch';
-import { VersionToTagService } from '../../modules/git/adapters/version-to-tag/version-to-tag.service';
+import { VersionToTagService } from '../../modules/git/services/version-to-tag/version-to-tag.service';
 import { registerPipeline } from '../../main/console';
 import { TagPattern } from '../../modules/git/providers/tag-pattern';
 import { Pipeline } from '../../modules/core/decorators/pipeline';

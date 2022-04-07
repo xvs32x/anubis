@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { ChangeDetectionService } from '../../adapters/change-detection/change-detection.service';
+import { ChangeDetectionService } from '../../services/change-detection/change-detection.service';
 import { Application } from '../../../../models/application';
-import { LastTagService } from '../../adapters/last-tag/last-tag.service';
-import { NewTagService } from '../../adapters/new-tag/new-tag.service';
-import { NextVersionService } from '../../adapters/next-version/next-version.service';
-import { TagToVersionService } from '../../adapters/tag-to-version/tag-to-version.service';
-import { VersionToTagService } from '../../adapters/version-to-tag/version-to-tag.service';
+import { LastTagService } from '../../services/last-tag/last-tag.service';
+import { NewTagService } from '../../services/new-tag/new-tag.service';
+import { NextVersionService } from '../../services/next-version/next-version.service';
+import { TagToVersionService } from '../../services/tag-to-version/tag-to-version.service';
+import { VersionToTagService } from '../../services/version-to-tag/version-to-tag.service';
 import { PushResult } from 'simple-git/typings/response';
-import { GitReleaseService } from '../../adapters/git-release/git-release.service';
+import { GitReleaseService } from '../../services/git-release/git-release.service';
 
 @Injectable()
 export class GitService {

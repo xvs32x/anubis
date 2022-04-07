@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { GitReleaseService } from './git-release.service';
 import { GitService } from '../../facades/git/git.service';
-import { TableOfChangesService } from '../../../reporter/adapters/table-of-changes/table-of-changes.service';
+import { TableOfChangesService } from '../../../reporter/services/table-of-changes/table-of-changes.service';
 import { LoggerService } from '../../../logger/services/logger.service';
 import { SafeModeProvider } from '../../../config/providers/safe-mode';
 import { DefaultVersionProvider } from '../../providers/default-version';

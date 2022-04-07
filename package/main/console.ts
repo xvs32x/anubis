@@ -9,7 +9,7 @@ export function registerPipeline(Pipeline, config: Config[]) {
   const module: DynamicModule = {
     module: AnubisModule,
     providers: [Pipeline],
-    imports: [ReporterModule, GitModule.withConfig(config)],
+    imports: [ReporterModule.withConfig(config), GitModule.withConfig(config)],
   };
   registerModule(module);
 }
