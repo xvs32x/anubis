@@ -10,6 +10,9 @@ import { Step } from '../../modules/core/decorators/step';
 import { Config } from '../../modules/core/models/config';
 import { GitService } from '../../modules/git/facades/git/git.service';
 import { ReporterService } from '../../modules/reporter/facades/reporter/reporter/reporter.service';
+import { GithubService } from '../../modules/github/facades/github/github.service';
+import { GithubOwner } from '../../modules/github/providers/github-owner';
+import { GithubRepo } from '../../modules/github/providers/github-repo';
 
 const appPath = 'shell-with-remotes';
 
@@ -30,22 +33,10 @@ const remotes: Application[] = [
 ];
 
 const config: Config[] = [
-  {
-    provide: SafeMode,
-    useValue: true,
-  },
-  {
-    provide: RepoUrl,
-    useValue: 'git@github.com:xvs32x/anubis.git',
-  },
-  {
-    provide: CommitBranch,
-    useValue: 'origin/main',
-  },
-  {
-    provide: TagPattern,
-    useValue: '^.+([0-9]+).([0-9]+).([0-9]+)',
-  },
+  { provide: SafeMode, useValue: true },
+  { provide: RepoUrl, useValue: 'git@github.com:xvs32x/anubis.git' },
+  { provide: CommitBranch, useValue: 'origin/main' },
+  { provide: TagPattern, useValue: '^.+([0-9]+).([0-9]+).([0-9]+)' },
   {
     provide: VersionToTagService,
     useValue: {
@@ -54,6 +45,8 @@ const config: Config[] = [
       },
     },
   },
+  { provide: GithubOwner, useValue: 'xvs32x' },
+  { provide: GithubRepo, useValue: 'anubis' },
 ];
 
 @Pipeline({
@@ -63,6 +56,7 @@ const config: Config[] = [
 class PipelineService {
   constructor(
     protected gitService: GitService,
+    protected githubService: GithubService,
     protected reporterService: ReporterService,
   ) {}
 
@@ -76,6 +70,18 @@ class PipelineService {
       await this.gitService.release(remote);
     }
     this.reporterService.tableOfChanges.print();
+  }
+
+  @Step({
+    command: 'github',
+    description: 'Create a new release for recent tags',
+  })
+  async github(): Promise<void> {
+    await this.githubService.release(shell);
+    // for (const remote of remotes) {
+    //   await this.gitService.release(remote);
+    // }
+    // this.reporterService.tableOfChanges.print();
   }
 }
 

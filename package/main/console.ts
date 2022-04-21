@@ -4,12 +4,17 @@ import { Config } from '../modules/core/models/config';
 import { DynamicModule } from '@nestjs/common';
 import { GitModule } from '../modules/git/git.module';
 import { ReporterModule } from '../modules/reporter/reporter.module';
+import { GithubModule } from '../modules/github/github.module';
 
 export function registerPipeline(Pipeline, config: Config[]) {
   const module: DynamicModule = {
     module: AnubisModule,
     providers: [Pipeline],
-    imports: [ReporterModule.withConfig(config), GitModule.withConfig(config)],
+    imports: [
+      ReporterModule.withConfig(config),
+      GitModule.withConfig(config),
+      GithubModule.withConfig(config),
+    ],
   };
   registerModule(module);
 }

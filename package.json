@@ -19,7 +19,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "example:shell-with-remotes:git": "ts-node -r tsconfig-paths/register package/examples/shell-with-remotes/publisher.ts publish git"
+    "example:shell-with-remotes:git": "ts-node -r tsconfig-paths/register package/examples/shell-with-remotes/publisher.ts publish git",
+    "example:shell-with-remotes:github": "ts-node -r tsconfig-paths/register package/examples/shell-with-remotes/publisher.ts publish github"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
@@ -27,6 +28,7 @@
     "@nestjs/platform-express": "^8.0.0",
     "@types/semver": "^7.3.9",
     "nestjs-console": "^7.0.1",
+    "octokit": "^1.7.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
