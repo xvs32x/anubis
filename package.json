@@ -8,7 +8,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
-    "format": "prettier --write \\\"package/**/*.ts\\\" \\\"test/**/*.ts\\\"",
+    "format": "prettier --write \\\\\\\"package123/**/*.ts\\\\\\\" \\\\\\\"test/**/*.ts\\\\\\\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
@@ -19,8 +19,9 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "example:shell-with-remotes:git": "ts-node -r tsconfig-paths/register package/examples/shell-with-remotes/publisher.ts publish git",
-    "example:shell-with-remotes:github": "ts-node -r tsconfig-paths/register package/examples/shell-with-remotes/publisher.ts publish github"
+    "example:shell-with-remotes:git": "ts-node -r tsconfig-paths/register package123/examples/shell-with-remotes/publisher.ts publish git",
+    "example:shell-with-remotes:github": "ts-node -r tsconfig-paths/register package123/examples/shell-with-remotes/publisher.ts publish github",
+    "git": "ts-node -r tsconfig-paths/register package/examples/shell-with-remotes/publisher.ts git"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",

@@ -1,88 +1,50 @@
-import { Application } from '../../models/application';
-import { SafeMode } from '../../modules/config/providers/safe-mode';
-import { RepoUrl } from '../../modules/git/providers/repo-url';
-import { CommitBranch } from '../../modules/git/providers/commit-branch';
-import { VersionToTagService } from '../../modules/git/services/version-to-tag/version-to-tag.service';
-import { registerPipeline } from '../../main/console';
-import { TagPattern } from '../../modules/git/providers/tag-pattern';
-import { Pipeline } from '../../modules/core/decorators/pipeline';
-import { Step } from '../../modules/core/decorators/step';
-import { Config } from '../../modules/core/models/config';
-import { GitService } from '../../modules/git/facades/git/git.service';
-import { ReporterService } from '../../modules/reporter/facades/reporter/reporter/reporter.service';
-import { GithubService } from '../../modules/github/facades/github/github.service';
-import { GithubOwner } from '../../modules/github/providers/github-owner';
-import { GithubRepo } from '../../modules/github/providers/github-repo';
+import { injectable } from '../../core/injector/injectable';
+import { Anubis } from '../../core/anubis/anubis';
+import { GitService } from '../../git/git.service';
+import { Application } from '../../core/anubis/application.model';
+import { ReporterService } from '../../core/reporter/reporter.service';
+import { GitConfig as GitConfigDefault } from '../../git/secondary/git-config/git-config';
+import { Config as ConfigDefault } from '../../core/config/config';
 
-const appPath = 'shell-with-remotes';
-
-const shell: Application = {
-  name: `${appPath}-shell`,
-  path: [`package/examples/${appPath}/shell`],
-};
-
-const remotes: Application[] = [
+const apps: Application[] = [
   {
-    name: `${appPath}-remote1`,
-    path: [`package/examples/${appPath}/remote-1`],
+    name: `shell-with-remotes-shell`,
+    path: [`package/examples/shell-with-remotes/shell`],
   },
   {
-    name: `${appPath}-remote2`,
-    path: [`package/examples/${appPath}/remote-2`],
+    name: `shell-with-remotes-remote1`,
+    path: [`package/examples/shell-with-remotes/remote-1`],
+  },
+  {
+    name: `shell-with-remotes-remote2`,
+    path: [`package/examples/shell-with-remotes/remote-2`],
   },
 ];
 
-const config: Config[] = [
-  { provide: SafeMode, useValue: true },
-  { provide: RepoUrl, useValue: 'git@github.com:xvs32x/anubis.git' },
-  { provide: CommitBranch, useValue: 'origin/main' },
-  { provide: TagPattern, useValue: '^.+([0-9]+).([0-9]+).([0-9]+)' },
-  {
-    provide: VersionToTagService,
-    useValue: {
-      convert(app: Application, version: string) {
-        return `${app.name}-${version}`;
-      },
-    },
-  },
-  { provide: GithubOwner, useValue: 'xvs32x' },
-  { provide: GithubRepo, useValue: 'anubis' },
-];
+@injectable()
+class Config extends ConfigDefault {
+  safeMode = true;
+}
 
-@Pipeline({
-  command: 'publish',
-  description: 'Publish the app',
-})
-class PipelineService {
+@injectable()
+class GitConfig extends GitConfigDefault {
+  repoUrl = 'git@github.com:xvs32x/anubis.git';
+  commitBranch = 'origin/main';
+}
+
+@injectable()
+class Pipeline {
   constructor(
     protected gitService: GitService,
-    protected githubService: GithubService,
     protected reporterService: ReporterService,
   ) {}
 
-  @Step({
-    command: 'git',
-    description: 'Create a new tag for every app and push it into the git repo',
-  })
-  async git(): Promise<void> {
-    await this.gitService.release(shell);
-    for (const remote of remotes) {
-      await this.gitService.release(remote);
+  async git() {
+    for await (const app of apps) {
+      await this.gitService.release(app);
     }
-    this.reporterService.tableOfChanges.print();
-  }
-
-  @Step({
-    command: 'github',
-    description: 'Create a new release for recent tags',
-  })
-  async github(): Promise<void> {
-    await this.githubService.release(shell);
-    // for (const remote of remotes) {
-    //   await this.gitService.release(remote);
-    // }
-    // this.reporterService.tableOfChanges.print();
+    this.reporterService.printTableOfChanges();
   }
 }
 
-registerPipeline(PipelineService, config);
+Anubis.registerPipeline(Pipeline, Config, GitConfig);
