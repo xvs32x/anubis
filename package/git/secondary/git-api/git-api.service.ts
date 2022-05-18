@@ -3,7 +3,11 @@ import { GitConfigService } from '../git-config/git-config.service';
 import { SimpleGitOptions } from 'simple-git/src/lib/types';
 import { Application } from '../../../core/anubis/application.model';
 import { ReporterService } from '../../../core/reporter/reporter.service';
-import { PushResult } from 'simple-git/typings/response';
+import {
+  BranchSummary,
+  ConfigGetResult,
+  PushResult,
+} from 'simple-git/typings/response';
 import { injectable } from '../../../core/injector/injectable';
 import { GitConfig } from '../git-config/git-config';
 
@@ -18,7 +22,7 @@ export class GitApiService {
     this.config = this.gitConfigService.getConfig();
   }
   async getAppIsChangedSinceLastTag(app: Application): Promise<boolean> {
-    const branch = this.config.commitBranch;
+    const branch = await this.getCurrentBranch();
     try {
       const lastTag = await this.getLastTag(app);
 
@@ -35,8 +39,26 @@ export class GitApiService {
       this.reporterService.shutdown(new Error(e));
     }
   }
+  async getRepoUrl(): Promise<string> {
+    try {
+      const config: ConfigGetResult = await this.getInstance().getConfig(
+        'remote.origin.url',
+      );
+      return config.value;
+    } catch (e) {
+      this.reporterService.shutdown(new Error(e));
+    }
+  }
+  async getCurrentBranch(): Promise<string> {
+    try {
+      const branches: BranchSummary = await this.getInstance().branch();
+      return branches.current;
+    } catch (e) {
+      this.reporterService.shutdown(new Error(e));
+    }
+  }
   async addNewTag(tag: string): Promise<PushResult> {
-    const repoUrl = this.config.repoUrl;
+    const repoUrl = await this.getRepoUrl();
     try {
       await this.getInstance().addAnnotatedTag(tag, '');
       return await this.getInstance().pushTags(['--repo', repoUrl]);
@@ -57,18 +79,12 @@ export class GitApiService {
       return this.git;
     }
 
-    this.git = this.configure(
-      this.config.simpleGitOptions,
-      this.config.gitConfig,
-    );
+    this.git = this.configure(this.config.gitConfig);
 
     return this.git;
   }
-  protected configure(
-    options: Partial<SimpleGitOptions>,
-    config: SimpleGitOptions,
-  ): SimpleGit {
-    const gitInstance = simpleGit(options);
+  protected configure(config: SimpleGitOptions): SimpleGit {
+    const gitInstance = simpleGit();
 
     for (const field in config) {
       gitInstance.addConfig(field, config[field]);

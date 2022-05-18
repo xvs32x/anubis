@@ -24,24 +24,24 @@ export class GitService {
       await this.preRelease(app);
       return;
     }
-    // const isChanged = await this.gitApiService.getAppIsChangedSinceLastTag(app);
-    // if (isChanged) {
-    //   const currentTag = await this.gitApiService.getLastTag(app);
-    //   const currentVersion = currentTag
-    //     ? this.gitSemverService.convertTagToVersion(currentTag)
-    //     : this.gitConfig.defaultVersion;
-    //   const nextVersion = this.gitSemverService.getNextVersion(currentVersion);
-    //   const nextTag = this.gitSemverService.convertVersionToTag(
-    //     app,
-    //     nextVersion,
-    //   );
-    //   this.reporterService.pushRowIntoTable({
-    //     name: app.name,
-    //     currentTag,
-    //     nextTag,
-    //   });
-    //   await this.gitApiService.addNewTag(nextTag);
-    // }
+    const isChanged = await this.gitApiService.getAppIsChangedSinceLastTag(app);
+    if (isChanged) {
+      const currentTag = await this.gitApiService.getLastTag(app);
+      const currentVersion = currentTag
+        ? this.gitSemverService.convertTagToVersion(currentTag)
+        : this.gitConfig.defaultVersion;
+      const nextVersion = this.gitSemverService.getNextVersion(currentVersion);
+      const nextTag = this.gitSemverService.convertVersionToTag(
+        app,
+        nextVersion,
+      );
+      this.reporterService.pushRowIntoTable({
+        name: app.name,
+        currentTag,
+        nextTag,
+      });
+      await this.gitApiService.addNewTag(nextTag);
+    }
   }
   protected async preRelease(app: Application) {
     const isChanged = await this.gitApiService.getAppIsChangedSinceLastTag(app);

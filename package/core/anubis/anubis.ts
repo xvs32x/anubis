@@ -1,9 +1,9 @@
 import { Dependency } from '../injector/secondary/dependency';
 import { Container } from '../injector/container';
-import { Terminal } from '../terminal/terminal';
 import { Dependencies } from '../injector/secondary/dependencies';
 import { ReporterService } from '../reporter/reporter.service';
 import { Config } from '../config/config';
+import { TerminalService } from '../terminal/terminal.service';
 
 export class Anubis {
   static registerPipeline<T>(
@@ -13,7 +13,10 @@ export class Anubis {
     Container.get(ReporterService).info('Anubis is starting...');
     Anubis.#registerProviders(providers);
     Anubis.#checkConfig();
-    Anubis.#runCommand(Container.get(Pipeline), Terminal.getRunCommand());
+    Anubis.#runCommand(
+      Container.get(Pipeline),
+      Container.get(TerminalService).getRunCommand(),
+    );
   }
   static #registerProviders(providers: Dependencies = []): void {
     providers.forEach((Constructor) => {

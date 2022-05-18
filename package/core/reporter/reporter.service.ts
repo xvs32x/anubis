@@ -21,19 +21,19 @@ export class ReporterService {
   }
 
   info(message?: any, ...args): void {
-    console.info(`INFO : ${message}`, ...args);
+    console.info(`INFO  : ${message}`, ...args);
   }
 
   log(message?: any, ...args): void {
-    console.log(`LOG  : ${message}`, ...args);
+    console.log(`LOG   : ${message}`, ...args);
   }
 
   warn(message?: any, ...args): void {
-    console.warn(`WARN : ${message}`, ...args);
+    console.warn(`WARN  : ${message}`, ...args);
   }
 
   shutdown(message?: any, ...args): void {
-    console.error(`ERROR: ${message}`, ...args);
+    console.error(`ERROR : ${message}`, ...args);
     process.exit(1);
   }
 }
