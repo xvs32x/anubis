@@ -39,7 +39,7 @@ class GitConfig extends GitConfigDefault {
 class GithubConfig extends GithubConfigDefault {
   owner = 'xvs32x';
   repo = 'anubis';
-  token = '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';
+  token = '';
 }
 
 @injectable()
