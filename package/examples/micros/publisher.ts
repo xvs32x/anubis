@@ -12,37 +12,32 @@ import { NpmService } from '../../npm/npm.service';
 
 const apps: Application[] = [
   {
-    name: `shell-with-remotes-shell`,
-    path: [`package/examples/shell-with-remotes/shell`],
+    name: `micro1`,
+    path: [`package/examples/micros/micro-1`],
   },
   {
-    name: `shell-with-remotes-remote1`,
-    path: [`package/examples/shell-with-remotes/remote-1`],
+    name: `micro2`,
+    path: [`package/examples/micros/micro-2`],
   },
   {
-    name: `shell-with-remotes-remote2`,
-    path: [`package/examples/shell-with-remotes/remote-2`],
+    name: `micro3`,
+    path: [`package/examples/micros/micro-3`],
   },
 ];
 
-@injectable()
 class Config extends ConfigDefault {
   safeMode = false;
 }
 
-@injectable()
 class GitConfig extends GitConfigDefault {
   tagPattern = '^.+([0-9]+).([0-9]+).([0-9]+)';
 }
 
-@injectable()
 class GithubConfig extends GithubConfigDefault {
   owner = 'xvs32x';
   repo = 'anubis';
-  token = '';
 }
 
-@injectable()
 class GitSemverService extends GitSemverServiceDefault {
   convertVersionToTag(app: Application, version: string): string {
     return `${app.name}-${version}`;
